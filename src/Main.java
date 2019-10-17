@@ -11,7 +11,9 @@ public class Main {
         int antalNye = 0;
         int måned = 0;
         int udbytteInterval = 0;
+        int antalMulige =0;
 
+        boolean genInvester = false;
         boolean running = true;
         while (running) {
            // scanner som bliver indtastet på startkapital, aktiepris, udbyttePrAktie samt måned.
@@ -36,6 +38,16 @@ public class Main {
             int tid = input.nextInt();
             måned = tid;
 
+            System.out.println("Vil du løbende gen-Investere? 1 = ja | 2 = nej");
+            int valg =input.nextInt();
+            if (valg==1) {
+                genInvester=true;
+            } else if(valg==2) {
+                System.out.println("investeres ikke løbende");
+            }
+            else {
+                System.out.println("forkert input"); }
+
            antalAktier += (startKapital/aktiePris);
             System.out.println(antalAktier); //tjek på om det virker?
            kapital = startKapital%aktiePris;
@@ -47,16 +59,24 @@ public class Main {
                 if (i%udbytteInterval==0) {
                     kapital += udbyttePrAktie * antalAktier; // så kapitalet bliver forøget af udbyttet
 
-                    antalNye += kapital / aktiePris; // så hvor mange aktier man kan købe af udbyttet => investeres igen
+                    if (genInvester) {
+                        antalNye += kapital / aktiePris; // så hvor mange aktier man kan købe af udbyttet => investeres igen
 
-                    kapital = (kapital % aktiePris); //så kapitalet bliver opdateret af købet
+                        kapital = (kapital % aktiePris); //så kapitalet bliver opdateret af købet
 
-                    System.out.println("Antal aktier der kan købes : " + antalNye);
+                        System.out.println("Antal aktier der kan købes : " + antalNye);
+                    } else if (!genInvester){
+                        antalMulige = (int) (kapital / aktiePris);
+
+                        System.out.println("Antal Mulige aktier der kan købes : " + antalMulige);}
+
+
+
                     for (int x = 0; x < antalNye; x++ ) { //køber op af aktier så længe der er nok til nye
                         antalAktier++;
                         } antalNye = 0;
                     System.out.println("Nye aktie Beholdning : " + antalAktier);
-                    System.out.println("Resterende kapital : " + kapital);
+                    System.out.println("Kapital : " + kapital);
                     System.out.println("---------------------------");
                 }
                 if (i==måned) {
